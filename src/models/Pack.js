@@ -29,8 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  // Pack.associate = (models) => {
-  //   Pack.belongsToMany(models.Product, {
+  Pack.associate = (models) => {
+    Pack.belongsToMany(models.Product);
+  };
+  // , {
   //     foreignKey: "pack_id",
   //     as: "pack",
   // });
