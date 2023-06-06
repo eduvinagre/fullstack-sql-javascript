@@ -1,5 +1,3 @@
-const Product = require("./Product");
-
 module.exports = (sequelize, DataTypes) => {
   const Pack = sequelize.define(
     "Pack",
@@ -30,17 +28,16 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Pack.associate = (models) => {
-    Pack.belongsToMany(models.Product);
+    Pack.belongsTo(models.Product, {
+      foreignKey: "product_id",
+      as: "product",
+    });
+
+    Pack.belongsTo(models.Product, {
+      foreignKey: "pack_id",
+      as: "packProducts",
+    });
   };
-  // , {
-  //     foreignKey: "pack_id",
-  //     as: "pack",
-  // });
-  // // Pack.belongsToMany(models.Product, {
-  //   foreignKey: "product_id",
-  //   as: "product",
-  // });
-  // };
 
   return Pack;
 };

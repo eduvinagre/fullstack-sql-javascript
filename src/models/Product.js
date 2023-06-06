@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       cost_price: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
       sales_price: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
     },
@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Product.associate = (models) => {
-    Product.hasMany(models.Pack);
+    Product.hasMany(models.Pack, {
+      foreignKey: "product_id",
+      otherKey: "pack_id",
+      as: "pack",
+    });
   };
 
   return Product;
