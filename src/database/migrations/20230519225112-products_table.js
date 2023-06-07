@@ -15,11 +15,11 @@ module.exports = {
         allowNull: false,
       },
       cost_price: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       sales_price: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
     });

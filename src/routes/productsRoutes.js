@@ -13,5 +13,6 @@ router.post(
   validator,
   ProductsController.productsValidation
 );
+router.post("/api/v1/shopper/update", ProductsController.productsUpdate);
 
 module.exports = router;
