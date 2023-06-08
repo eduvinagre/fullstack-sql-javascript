@@ -74,10 +74,15 @@ const ProductsController = {
         },
       });
 
+      if (!product) {
+        return res.status(404).json({ error: "Produto não encontrado" });
+      }
+
       const verifyIfProductIsPack = await Pack.findOne({
         where: { pack_id: product.code },
       });
 
+      // verificando se é um pacote
       if (verifyIfProductIsPack) {
         // return res.json({ message: "É um pacote." });
 
@@ -148,8 +153,83 @@ const ProductsController = {
           { where: { code: product_code } }
         );
 
-        return res.json(productPorcentAndValueRepresentationInThePackArray);
+        return res.status(200).json({ message: "preço do produto atualizado" });
       }
+
+      // verificando se produto faz parte de pacote
+      if (product.pack.length > 0) {
+        const productPacksArray = [];
+        for (let index in product.pack) {
+          const productPack = await Product.findOne({
+            where: { code: product.pack[index].pack_id },
+          });
+          productPacksArray.push(productPack);
+        }
+        const productPackInfosArray = [];
+        for (let pack of productPacksArray) {
+          const packProductsInfos = await Pack.findAll({
+            where: { pack_id: pack.code },
+            include: [
+              {
+                model: Product,
+                as: "product",
+              },
+            ],
+          });
+          const packInfos = {
+            pack_code: pack.code,
+            name: pack.name,
+            cost_price: pack.cost_price,
+            sales_price: pack.sales_price,
+            products: packProductsInfos,
+          };
+          productPackInfosArray.push(packInfos);
+        }
+        // atualizando os valores do produto e do pacote
+        async function updateProductAndPackValues() {
+          let otherProductSetPriceRepresentionInPack = 0;
+          let newPackValue = 0;
+          for (let pack of productPackInfosArray) {
+            for (let p of pack.products) {
+              const newProductSetPriceRepresentationInPack = new_price * p.qty;
+              if (p.product.name != product.name) {
+                const productSalesPrice = Number(p.product.sales_price);
+                otherProductSetPriceRepresentionInPack =
+                  productSalesPrice * p.qty;
+                newPackValue +=
+                  otherProductSetPriceRepresentionInPack +
+                  newProductSetPriceRepresentationInPack;
+              }
+              await Product.update(
+                {
+                  sales_price: new_price,
+                },
+                {
+                  where: { code: product_code },
+                }
+              );
+              await Product.update(
+                {
+                  sales_price: newPackValue,
+                },
+                {
+                  where: { code: pack.pack_code },
+                }
+              );
+            }
+          }
+        }
+        await updateProductAndPackValues();
+        return res.status(200).json({ message: "preço do produto atualizado" });
+      }
+
+      await Product.update(
+        { sales_price: new_price },
+        {
+          where: { code: product_code },
+        }
+      );
+      return res.status(200).json({ message: "preço do produto atualizado" });
     } catch (error) {
       if (error.name === "SequelizeConnectionRefusedError") {
         return res.status(500).json({
