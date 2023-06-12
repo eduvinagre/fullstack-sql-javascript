@@ -53,3 +53,5 @@ The frontend uses PapaParse, a JavaScript library, to handle CSV parsing. PapaPa
 ## Conclusion
 
 This full stack project demonstrates the integration of multiple technologies to create a powerful web application. By combining React for the frontend, Node.js for the backend, MySQL for database management, and Sequelize for data handling, we achieve a robust and scalable solution. The backend handles routes, models, and validations to ensure data integrity, while the frontend allows easy importing of CSV data.
+
+## Techs Used
