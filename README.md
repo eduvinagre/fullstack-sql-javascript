@@ -57,3 +57,7 @@ This full stack project demonstrates the integration of multiple technologies to
 ## Techs Used
 
 NodeJs, MySQL, Postman, JavaScript, React, Sequelize, VSCode
+
+## Project Status
+
+Finalized
