@@ -60,6 +60,8 @@ The project is online and can be used using the sample CSV file on the project.
 
 https://vercel.com/eduvinagre/fullstack-sql-javascript
 
+The backend is uploaded to Cyclic
+
 ## Techs Used
 
 NodeJs, MySQL, Postman, JavaScript, React, Sequelize, VSCode
