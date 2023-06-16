@@ -58,6 +58,8 @@ This full stack project demonstrates the integration of multiple technologies to
 
 The project is online and can be used using the sample CSV file on the project.
 
+https://vercel.com/eduvinagre/fullstack-sql-javascript
+
 ## Techs Used
 
 NodeJs, MySQL, Postman, JavaScript, React, Sequelize, VSCode
